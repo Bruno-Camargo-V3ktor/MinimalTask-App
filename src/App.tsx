@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ThemeProvider } from 'styled-components'
-import { darkTheme, whiteTheme } from './styles/themes'
+import { darkTheme, lightTheme } from './styles/themes'
 import { Router } from './Router'
 import { GlobalStyle } from './styles/global'
 

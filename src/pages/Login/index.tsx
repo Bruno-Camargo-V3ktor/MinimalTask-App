@@ -6,7 +6,7 @@ export function LoginPage() {
     // Render
     return (
         <LoginContainer>
-            <h1>Login</h1>
+            <h1>FAZER LOGIN</h1>
         </LoginContainer>
     )
 
