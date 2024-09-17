@@ -11,3 +11,8 @@ export const lightTheme: Theme = {
     secondary: '#d3cbc3',
     tertiary: 'black'
 }
+
+export enum Themes {
+    dark = 'dark',
+    light = 'light',
+}
