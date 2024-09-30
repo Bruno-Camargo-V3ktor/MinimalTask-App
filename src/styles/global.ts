@@ -6,8 +6,6 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
 
-        font-size: 1.125rem; //18px
-        font-family: "Hanken Grotesk", sans-serif;
         font-optical-sizing: auto;
         font-weight: bold;
     }
@@ -15,6 +13,9 @@ export const GlobalStyle = createGlobalStyle`
     body {
         background: ${ (props) => props.theme.secondary };
         color: ${ (props) => props.theme.primary };
+
+        font-size: 1.125rem; //18px
+        font-family: ${ (props) => props.theme.fontPrimary };
 
         transition: background 0.4s;
         transition: color 0.4s;

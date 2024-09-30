@@ -8,7 +8,7 @@ import { GlobalStyle } from './styles/global'
 export function App() {
 
   // States
-  const [theme, setTheme] = useState( darkTheme )
+  const [theme, setTheme] = useState( lightTheme )
 
   // Métodos
   function swapTheme( theme: Themes )

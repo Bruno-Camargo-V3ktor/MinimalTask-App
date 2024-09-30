@@ -1,6 +1,7 @@
-import { TasksContainer } from "./styles";
+import { PageMain, OptionsMenu, MusicMenu, TasksContainer } from "./styles";
 import {useContext} from "react";
 import {tasksContext} from "../../contexts/TasksContext.tsx";
+import { MusicPlay } from "./components/MusicPlay/index.tsx";
 
 
 export function TasksPage() {
@@ -11,11 +12,21 @@ export function TasksPage() {
     // Render
     return (
         <TasksContainer>
-            <h1>Home</h1>
 
-            <pre>
-                { JSON.stringify(tasks, null, 2) }
-            </pre>
+            <MusicMenu>     
+               <MusicPlay />
+            </MusicMenu>
+            
+            <PageMain>
+                <pre>
+                    { JSON.stringify(tasks, null, 2) }
+                </pre>
+            </PageMain>
+            
+            <OptionsMenu>
+                <h1>Rodape</h1>
+            </OptionsMenu>
+
         </TasksContainer>
     )
 
