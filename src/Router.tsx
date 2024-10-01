@@ -2,12 +2,8 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { LoginPage } from './pages/Login/index';
 import { TasksPage } from './pages/Tasks/index';
 import {TasksProvider} from "./contexts/TasksContext.tsx";
-import {RouterProps} from "./@types/router.ts";
 
-export function Router( props: RouterProps ) {
-
-    // Atributos
-    const {  } = props
+export function Router( ) {
 
     // Render
     return (
