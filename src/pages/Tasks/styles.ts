@@ -37,5 +37,11 @@ export const OptionsMenu = styled.aside`
 
     align-items: flex-end;
     justify-content: flex-end;
-    //margin-right: 6.4rem;
+    
+    div {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+    }
+    
 `

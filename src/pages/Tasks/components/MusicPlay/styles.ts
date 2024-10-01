@@ -15,7 +15,9 @@ export const MusicComponent = styled.div`
         min-width: 9rem;
         width: 35%;
         height: 2rem;
-
+        
+        transform: translateX(2.5%);
+        
         overflow: hidden;
         position: relative;
     }
@@ -33,21 +35,12 @@ export const MusicComponent = styled.div`
 
     @keyframes loop {
         0% {
-            transform: translateX(100%);
+            transform: translateX(110%);
         }
 
         100% {
             transform: translateX(-100%);
         }
-    }
-
-    .btnPlay {
-        cursor: pointer;
-        transition: scale cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s
-    }
-
-    .btnPlay:hover {
-        scale: 1.2;
     }
 
 `

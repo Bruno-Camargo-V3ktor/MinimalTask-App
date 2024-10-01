@@ -20,13 +20,13 @@ export function MusicPlay() {
                 <h3 className='titleMusic'>myxeria music</h3>
             </div>
             
-            
+
             {
                 !mute
-                ? <SpeakerSimpleHigh size={45} className='btnPlay' onClick={swapMute} />
-                : <SpeakerSimpleSlash size={45} className='btnPlay' onClick={swapMute} />
+                ? <SpeakerSimpleHigh size={50} className='btnIcon' onClick={swapMute} />
+                : <SpeakerSimpleSlash size={50} className='btnIcon' onClick={swapMute} />
             }
-           
+
         </MusicComponent>
     );
 }
