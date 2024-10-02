@@ -4,6 +4,7 @@ import {tasksContext} from "../../contexts/TasksContext.tsx";
 import { MusicPlay } from "./components/MusicPlay";
 import {ThemeButton} from "../../components/ThemeButton";
 import {LogoutButton} from "../../components/LogoutButton";
+import {TaskList} from "./components/TaskList";
 
 
 export function TasksPage() {
@@ -20,11 +21,9 @@ export function TasksPage() {
             </MusicMenu>
             
             <PageMain>
-                <pre>
-                    { JSON.stringify(tasks, null, 2) }
-                </pre>
+                <TaskList />
             </PageMain>
-            
+
             <OptionsMenu>
                 <div>
                     <ThemeButton  size={ 70 } />

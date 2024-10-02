@@ -14,7 +14,7 @@ export function LogoutButton( props : { size: number } ) {
     return (
         <div className='btnIcon'>
 
-            <SignOut size={ size } width='fill' onClick={ onLogoutClick } className='btnIcon' />
+            <SignOut size={ size } weight='fill' onClick={ onLogoutClick } className='btnIcon' />
 
         </div>
     )

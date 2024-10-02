@@ -20,15 +20,14 @@ export const MusicMenu = styled.aside`
 export const PageMain = styled.main`
     display: flex;
     flex: 1.25;
-
+    
     justify-content: center;
     align-items: center;
-
-    pre {
-        width: 455px;
-        height: 615px;
-        background: blue;
-    }
+    
+    min-height: 614px;
+    min-width: 455px;
+    
+    padding: 4rem 1rem;
 `
 
 export const OptionsMenu = styled.aside`
