@@ -67,6 +67,13 @@ export const FormContainer = styled.form`
         aspect-ratio: 1;
         
         border-radius: 5px;
+
+        cursor: pointer;
+        transition: scale cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s
+    }
+    
+    .plusBtn:hover {
+        scale: 1.1;
     }
     
     .plusBtn .icon {

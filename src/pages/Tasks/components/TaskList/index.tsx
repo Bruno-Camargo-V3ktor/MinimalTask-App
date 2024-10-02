@@ -7,6 +7,9 @@ export function TaskList() {
     // States
     const [taskInput, setTaskInput] = useState( "" )
 
+    // Attributes
+
+
     // Methods
     function onSubmit( event: any )
     {
