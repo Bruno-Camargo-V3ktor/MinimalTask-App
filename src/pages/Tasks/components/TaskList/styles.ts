@@ -7,7 +7,9 @@ export const TaskListContainer = styled.div`
     height: 100%;
     width: 100%;
     
-    padding: 2rem;
+    padding-top: 2.5rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
     
     background: transparent;
     border: 3px solid ${ (props) => props.theme.primary };
@@ -89,7 +91,28 @@ export const ListContainer = styled.div`
     
     height: 100%;
     width: 100%;
+
+    margin-top: 4rem;
+    
+    
+    overflow-y: auto;
+    scrollbar-width: none;
     
     background: transparent;
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    li {
+        list-style: none;
+    }
+    
+
+    .finished-list {
+        margin-top: 4rem;
+    }
     
 `;

@@ -1,6 +1,9 @@
+import {useContext, useState} from "react";
 import {FormContainer, ListContainer, TaskListContainer} from "./styles.ts";
 import {Plus} from "@phosphor-icons/react";
-import {useState} from "react";
+import {TaskProps} from "../../../../@types/task.ts";
+import {tasksContext} from "../../../../contexts/TasksContext.tsx";
+import {Task} from "../../../../components/Task";
 
 export function TaskList() {
 
@@ -8,13 +11,22 @@ export function TaskList() {
     const [taskInput, setTaskInput] = useState( "" )
 
     // Attributes
-
+    const { getTasksByFilter } = useContext( tasksContext )
 
     // Methods
     function onSubmit( event: any )
     {
         event.preventDefault();
         setTaskInput( '' );
+    }
+
+    function tasksComponentsProvider( tasks: TaskProps[] )
+    {
+        return tasks.map( (task: TaskProps) => (
+            <li key={task.id}>
+                <Task  { ...task } />
+            </li>
+        ))
     }
 
     // Render
@@ -37,6 +49,14 @@ export function TaskList() {
             </FormContainer>
 
             <ListContainer>
+
+                <ul className='unfinished-list' >
+                    { tasksComponentsProvider( getTasksByFilter( { isDone: false } ) ) }
+                </ul>
+
+                <ul className='finished-list' >
+                    { tasksComponentsProvider( getTasksByFilter( { isDone: true } ) ) }
+                </ul>
 
             </ListContainer>
 

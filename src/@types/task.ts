@@ -1,17 +1,19 @@
 
-export interface Task {
+export interface TaskProps {
     id: string;
     title: string;
     done: boolean;
     targetDate: Date;
+    finishedDate: Date;
 }
 
+
 export interface TaskContext {
-    tasks: Task[];
-    createTask: (task: Task) => void;
-    updateTask: (task: Task) => void;
-    deleteTask: (task: Task) => void;
-    getTasksByFilter: (filter: TaskFilter) => Task[] | undefined;
+    tasks: TaskProps[];
+    createTask: (task: TaskProps) => void;
+    updateTask: (task: TaskProps) => void;
+    deleteTask: (task: TaskProps) => void;
+    getTasksByFilter: (filter: TaskFilter) => TaskProps[];
 }
 
 export interface TaskFilter {
