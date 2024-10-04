@@ -18,8 +18,12 @@ export const TaskContainer = styled.div`
     
     font-size: 2.25rem;
     
-    h2, p {
+    h2 {
         font-size: 1.5rem;
+    }
+    
+    p {
+        font-size: 1.25rem;
     }
     
     &.done {

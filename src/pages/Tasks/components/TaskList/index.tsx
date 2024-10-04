@@ -4,6 +4,7 @@ import {Plus} from "@phosphor-icons/react";
 import {TaskProps} from "../../../../@types/task.ts";
 import {tasksContext} from "../../../../contexts/TasksContext.tsx";
 import {Task} from "../../../../components/Task";
+import {add} from "date-fns";
 
 export function TaskList() {
 
@@ -11,13 +12,22 @@ export function TaskList() {
     const [taskInput, setTaskInput] = useState( "" )
 
     // Attributes
-    const { getTasksByFilter } = useContext( tasksContext )
+    const { getTasksByFilter, createTask } = useContext( tasksContext )
 
     // Methods
     function onSubmit( event: any )
     {
         event.preventDefault();
         setTaskInput( '' );
+
+        createTask( {
+            id: `task${(Math.random() + Math.random())}`,
+            title: taskInput,
+            done: false,
+            targetDate: add( new Date(), { hours: 1 } ) ,
+            finishedDate: null,
+            }
+        );
     }
 
     function tasksComponentsProvider( tasks: TaskProps[] )

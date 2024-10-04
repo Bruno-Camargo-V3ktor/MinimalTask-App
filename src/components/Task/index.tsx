@@ -3,6 +3,7 @@ import {TaskProps} from "../../@types/task.ts";
 import {CalendarBlank, CalendarCheck, CalendarX, CheckSquare, Square, Trash} from "@phosphor-icons/react";
 import {useContext, useEffect, useState} from "react";
 import {tasksContext} from "../../contexts/TasksContext.tsx";
+import {format, isBefore} from "date-fns";
 
 
 export function Task( props: TaskProps ) {
@@ -28,7 +29,7 @@ export function Task( props: TaskProps ) {
             }, 250 )
 
             setTimeout( () => {
-                updateTask( { id, title, 'done': !state, targetDate, 'finishedDate': new Date() } )
+                updateTask( { id, title, 'done': !state, targetDate, 'finishedDate': !state ? new Date() : null } )
             }, 900)
 
             return !state
@@ -64,13 +65,13 @@ export function Task( props: TaskProps ) {
                 <DateContainer>
 
                     {
-                        isFinished
-                        ? ( finishedDate.getTime() <= targetDate.getTime() ? <CalendarCheck weight='fill' className='btnIcon'/> : <CalendarX  weight='fill' className='btnIcon'/>)
+                        isFinished && finishedDate !== null
+                        ? ( isBefore( finishedDate!,  targetDate) ? <CalendarCheck weight='fill' className='btnIcon'/> : <CalendarX  weight='fill' className='btnIcon'/>)
                         : <CalendarBlank className='btnIcon'/>
                     }
 
 
-                    <p> { targetDate.toLocaleDateString() } </p>
+                    <p> {  format( targetDate, 'dd/MM/yyyy - (HH:mm)' ) /*targetDate.toLocaleDateString()*/ } </p>
                 </DateContainer>
 
             </TitleContainer>

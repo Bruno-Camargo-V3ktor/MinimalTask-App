@@ -12,7 +12,7 @@ export function TasksProvider( { children }: { children: ReactNode } )
     // Métodos
     function createTask( task: TaskProps )
     {
-        setTasks( (value) =>  [...value, task] );
+        setTasks( (value) =>  [task, ...value] );
     }
 
     function updateTask( task: TaskProps )

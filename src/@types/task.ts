@@ -4,7 +4,7 @@ export interface TaskProps {
     title: string;
     done: boolean;
     targetDate: Date;
-    finishedDate: Date;
+    finishedDate: Date | null;
 }
 
 
