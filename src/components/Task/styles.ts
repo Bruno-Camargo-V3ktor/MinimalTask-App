@@ -24,7 +24,49 @@ export const TaskContainer = styled.div`
     
     &.done {
         color: ${ (props) => props.theme.secondary };
-        background: ${ (props) => props.theme.primary };;
+        background: ${ (props) => props.theme.primary };
+    }
+    
+    &.done h2 {
+        font-style: italic;
+        text-decoration: line-through;
+    }
+    
+    
+    transition: all 0.25s ease-out;
+
+    @keyframes entered {
+        0% {
+            opacity: 0;
+            transform: translateX(-150%);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateX(0%);
+        }
+    }
+
+    @keyframes exited {
+        0% {
+            opacity: 1;
+            transform: translateX(0%);
+        }
+
+        100% {
+            opacity: 0;
+            transform: translateX(-150%);
+        }
+    }
+    
+    &.entered {
+        transform: translateX(0%);
+        animation: entered 0.75s ease-out forwards;
+    }
+
+    &.exited {
+        transform: translateX(0%);
+        animation: exited 0.75s ease-out forwards;
     }
     
 `
