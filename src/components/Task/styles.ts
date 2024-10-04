@@ -58,6 +58,23 @@ export const TaskContainer = styled.div`
             transform: translateX(-150%);
         }
     }
+
+    @keyframes deleted {
+        0% {
+            opacity: 1;
+            scale: 1;
+        }
+
+        25% {
+            opacity: 1;
+            scale: 1.2;
+        }
+        
+        100% {
+            opacity: 0;
+            scale: 0;
+        }
+    }
     
     &.entered {
         transform: translateX(0%);
@@ -67,6 +84,10 @@ export const TaskContainer = styled.div`
     &.exited {
         transform: translateX(0%);
         animation: exited 0.75s ease-out forwards;
+    }
+    
+    &.deleted {
+        animation: deleted 0.5s ease-out forwards;
     }
     
 `

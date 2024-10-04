@@ -9,7 +9,7 @@ export function Task( props: TaskProps ) {
 
     // Attributes
     const { id, title, done, targetDate, finishedDate } = props
-    const { updateTask } = useContext( tasksContext )
+    const { updateTask, deleteTask } = useContext( tasksContext )
 
     // States
     const [init, setInit] = useState( true )
@@ -34,6 +34,15 @@ export function Task( props: TaskProps ) {
             return !state
         } );
 
+    }
+
+    const onTrashClick = () => {
+        if( classes.indexOf('deleted') > 0 ) return
+
+        setClasses( (value) => [ ...value, 'deleted' ] );
+        setTimeout( () => {
+           deleteTask( props )
+        }, 500)
     }
 
     // Effects
@@ -73,7 +82,7 @@ export function Task( props: TaskProps ) {
                     : <Square className='btnIcon' onClick={ onCheckClick } />
                 }
 
-                <Trash weight={ !isFinished ? 'regular' : 'fill'} className='btnIcon'/>
+                <Trash weight={ !isFinished ? 'regular' : 'fill'} className='btnIcon' onClick={ onTrashClick } />
             </ActionsContainer>
 
         </TaskContainer>
