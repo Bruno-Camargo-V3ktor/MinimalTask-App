@@ -1,7 +1,7 @@
 import {ActionsContainer, DateContainer, TaskContainer, TitleContainer} from "./styles.ts";
 import {TaskProps} from "../../@types/task.ts";
 import {CalendarBlank, CalendarCheck, CalendarX, CheckSquare, Square, Trash} from "@phosphor-icons/react";
-import {useContext, useEffect, useState} from "react";
+import {ChangeEvent, useContext, useEffect, useRef, useState} from "react";
 import {tasksContext} from "../../contexts/TasksContext.tsx";
 import {format, isBefore} from "date-fns";
 
@@ -11,11 +11,13 @@ export function Task( props: TaskProps ) {
     // Attributes
     const { id, title, done, targetDate, finishedDate } = props
     const { updateTask, deleteTask } = useContext( tasksContext )
+    const dateRef = useRef<HTMLInputElement>(null);
 
     // States
     const [init, setInit] = useState( true )
     const [isFinished, setIsFinished] = useState( done )
     const [classes, setClasses] = useState<string[]>( [ isFinished ? 'done' : '', 'entered' ] )
+    const [_, setDateSelected] = useState<Date | null >( null )
 
     // Methods
     const onCheckClick = () => {
@@ -37,6 +39,21 @@ export function Task( props: TaskProps ) {
 
     }
 
+    const onDateClick = () => {
+        if( dateRef === null || isFinished ) return;
+
+        dateRef.current.focus();
+        dateRef.current.showPicker();
+    }
+
+    const onChangeDate = ( event: ChangeEvent<HTMLInputElement> ) => {
+        setDateSelected( (_) => {
+           const date = new Date( `${event.target.value}T23:59:59` );
+           updateTask( { id, title, 'done': isFinished, 'targetDate': date, 'finishedDate': null } )
+           return date;
+        }  );
+    }
+
     const onTrashClick = () => {
         if( classes.indexOf('deleted') > 0 ) return
 
@@ -54,7 +71,6 @@ export function Task( props: TaskProps ) {
 
      }, [isFinished, init])
 
-    console.log( classes.join(' ') )
     //Render
     return (
         <TaskContainer className={ classes.join(' ') }  >
@@ -62,7 +78,7 @@ export function Task( props: TaskProps ) {
             <TitleContainer>
                 <h2> {title} </h2>
 
-                <DateContainer>
+                <DateContainer onClick={ onDateClick }>
 
                     {
                         isFinished && finishedDate !== null
@@ -70,8 +86,13 @@ export function Task( props: TaskProps ) {
                         : <CalendarBlank className='btnIcon'/>
                     }
 
+                    <input
+                        type='date'
+                        ref={ dateRef }
+                        style={ { width: 0, height: 0, opacity: 0, position: 'relative', left: '-50px' } }
+                        onChange={ onChangeDate } />
 
-                    <p> {  format( targetDate, 'dd/MM/yyyy - (HH:mm)' ) /*targetDate.toLocaleDateString()*/ } </p>
+                    <p> {  format( targetDate, 'dd/MM/yyyy' ) } </p>
                 </DateContainer>
 
             </TitleContainer>

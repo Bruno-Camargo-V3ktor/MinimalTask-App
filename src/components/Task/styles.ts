@@ -124,6 +124,12 @@ export const DateContainer = styled.div`
 
     align-items: center;
     gap: 0.5rem;
+    
+    & p {
+        position: relative;
+        left: -15px;
+    } 
+    
 `;
 
 export const ActionsContainer = styled.div`

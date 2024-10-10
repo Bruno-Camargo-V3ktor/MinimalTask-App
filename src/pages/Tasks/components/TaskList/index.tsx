@@ -4,7 +4,6 @@ import {Plus} from "@phosphor-icons/react";
 import {TaskProps} from "../../../../@types/task.ts";
 import {tasksContext} from "../../../../contexts/TasksContext.tsx";
 import {Task} from "../../../../components/Task";
-import {add} from "date-fns";
 
 export function TaskList() {
 
@@ -20,11 +19,14 @@ export function TaskList() {
         event.preventDefault();
         setTaskInput( '' );
 
+        const date = new Date();
+        date.setHours(23, 59, 59);
+
         createTask( {
             id: `task${(Math.random() + Math.random())}`,
             title: taskInput,
             done: false,
-            targetDate: add( new Date(), { hours: 1 } ) ,
+            targetDate: date,
             finishedDate: null,
             }
         );
