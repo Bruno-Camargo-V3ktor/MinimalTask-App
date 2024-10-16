@@ -42,7 +42,9 @@ export function Task( props: TaskProps ) {
     const onDateClick = () => {
         if( dateRef === null || isFinished ) return;
 
+        // @ts-ignore
         dateRef.current.focus();
+        // @ts-ignore
         dateRef.current.showPicker();
     }
 
