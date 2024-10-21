@@ -47,32 +47,6 @@ export const LoginForm = styled.div`
     
 `
 
-export const LoginFormInput = styled.input`
-    
-    width: 21rem;
-    height: 3rem;
-    
-    font-size: 1.5rem;
-    font-family: ${ (props) => props.theme.fontPrimary };
-    
-    background: transparent;
-    
-    border: none;
-    border-bottom: 1px solid ${ (props) => props.theme.primary };
-    
-    color: ${ (props) => props.theme.primary };
-    
-    &:focus {
-        outline: none;
-        border-bottom: 3px solid ${ (props) => props.theme.primary };
-    }
-
-    &::placeholder {
-        font-style: italic;
-    }
-    
-`
-
 export const ButtonContainer = styled.div`
 
     display: flex;

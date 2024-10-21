@@ -1,23 +1,31 @@
-import {ButtonContainer, LoginContainer, LoginForm, LoginFormInput, OptionsContainer} from "./styles";
+import {ButtonContainer, LoginContainer, LoginForm, OptionsContainer} from "./styles";
 import {ThemeButton} from "../../components/ThemeButton";
 import {Door, DoorOpen, UserCirclePlus} from "@phosphor-icons/react";
 import {useState} from "react";
+import {Input} from "../../components/Input";
+import {useNavigate} from "react-router-dom";
 
 
 export function LoginPage() {
+
 
     // State
     const [btnHover, setBtnHover] = useState( false )
     const [username, setUsername] = useState( "" )
     const [password, setPassword] = useState( "" )
 
+    // Attributes
+    const navigate = useNavigate();
+
     // Methods
     function onClickRegisterUser() {
-        
+        navigate('/register');
     }
 
     function onLogin( event: any ) {
         event.preventDefault();
+
+        navigate('/tasks');
     }
 
     // Render
@@ -28,18 +36,20 @@ export function LoginPage() {
 
                 <form method="post" onSubmit={ onLogin } >
 
-                    <LoginFormInput
+                    <Input
                         type='text'
                         placeholder='Username'
                         value={ username }
                         onChange={ ( e ) => { setUsername( e.target.value ) }}
+                        errors={ [] }
                     />
 
-                    <LoginFormInput
+                    <Input
                         type='password'
                         placeholder='Password'
                         value={ password }
                         onChange={ ( e ) => { setPassword( e.target.value ) }}
+                        errors={ [] }
                     />
 
                     <button className={ 'btnIcon' } >

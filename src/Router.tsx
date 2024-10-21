@@ -1,6 +1,7 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import { LoginPage } from './pages/Login/index';
-import { TasksPage } from './pages/Tasks/index';
+import { LoginPage } from './pages/Login';
+import {RegisterPage} from "./pages/Register";
+import { TasksPage } from './pages/Tasks';
 import {TasksProvider} from "./contexts/TasksContext.tsx";
 
 export function Router( ) {
@@ -11,6 +12,8 @@ export function Router( ) {
             <Routes>
                 <Route path='/' element={ <LoginPage /> } />
                 <Route path='/login' element={ <LoginPage /> } />
+
+                <Route path='/register' element={ <RegisterPage /> } />
 
                 <Route path='/tasks' element={ ( () => { return <TasksProvider> <TasksPage/> </TasksProvider> } )() } />
             </Routes>
