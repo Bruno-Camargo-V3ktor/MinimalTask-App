@@ -2,6 +2,7 @@
 import { Router } from './Router'
 import {ThemeProvider} from "./contexts/ThemeContext.tsx";
 import { GlobalStyle } from './styles/global'
+import {SecurityProvider} from "./contexts/SecurityContext.tsx";
 
 
 export function App() {
@@ -10,11 +11,14 @@ export function App() {
   return (
     <>
 
-      <ThemeProvider>
-        <GlobalStyle />
+      <SecurityProvider>
 
-        <Router />
-      </ThemeProvider>
+          <ThemeProvider>
+              <GlobalStyle />
+              <Router />
+          </ThemeProvider>
+
+      </SecurityProvider>
 
     </>
   )
