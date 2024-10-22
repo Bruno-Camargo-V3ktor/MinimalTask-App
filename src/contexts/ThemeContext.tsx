@@ -8,7 +8,11 @@ export const themeContext = createContext( {} as { swapTheme: () => void, theme:
 export function ThemeProvider( { children }: {children: ReactNode}) {
 
     // States
-    const [theme, setTheme] = useState( darkTheme )
+    const [theme, setTheme] = useState<Theme>(
+        localStorage.getItem( "userTheme" )
+        ? localStorage.getItem( "userTheme" ) == "dark" ? darkTheme : lightTheme
+        : darkTheme
+    )
 
     // Methods
     function swapTheme( )
@@ -17,10 +21,12 @@ export function ThemeProvider( { children }: {children: ReactNode}) {
         {
             case 'dark':
                 setTheme( lightTheme )
+                localStorage.setItem( "userTheme", lightTheme.name )
                 break;
 
             case 'light':
                 setTheme( darkTheme )
+                localStorage.setItem( "userTheme", darkTheme.name )
                 break;
 
         }
