@@ -7,7 +7,7 @@ export function SecurityProvider( props: SecurityProviderProps ) {
 
     // Attributes
     const { children } = props;
-    let token: string | null = null;
+    let token: string | null = localStorage.getItem( "token" );
 
     // Methods
     function login( user: User ) : boolean {
@@ -43,11 +43,6 @@ export function SecurityProvider( props: SecurityProviderProps ) {
 
         return false;
     }
-
-    // Effetcs
-    useEffect( () => {
-        setToken( localStorage.getItem( "token" ) );
-    }, [])
 
     // Render
     return (
