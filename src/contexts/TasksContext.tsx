@@ -1,5 +1,6 @@
-import {useState, createContext, ReactNode, useEffect} from "react";
+import {useState, createContext, ReactNode, useEffect, useContext} from "react";
 import {TaskProps, TaskContext, TaskFilter} from "../@types/task.ts";
+import {securityContext} from "./SecurityContext.tsx";
 
 
 export const tasksContext = createContext< TaskContext >( {} as TaskContext );
@@ -8,6 +9,7 @@ export function TasksProvider( { children }: { children: ReactNode } )
 
     // States
     const [tasks, setTasks] = useState< TaskProps[] >([]);
+    const { } = useContext( securityContext )
 
     // Métodos
     function createTask( task: TaskProps )
