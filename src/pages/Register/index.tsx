@@ -12,7 +12,7 @@ export function RegisterPage() {
 
     // State
     const [btnHover, setBtnHover] = useState( false )
-    const [name, setName] = useState( "" )
+    const [email, setEmail] = useState( "" )
     const [username, setUsername] = useState( "" )
     const [password, setPassword] = useState( "" )
 
@@ -41,9 +41,9 @@ export function RegisterPage() {
                 <form method="post" onSubmit={ onRegister } >
 
                     <Input
-                        type='text'
-                        placeholder='Name'
-                        value={ name }
+                        type='email'
+                        placeholder='Email'
+                        value={ email }
                         onChange={ ( e ) => { setName( e.target.value ) }}
                         errors={ [] }
                     />
