@@ -1,0 +1,23 @@
+import {api} from "./config";
+import {User} from "../@types/security.ts";
+
+export async function userLogin( user: User ): Promise<User | null> {
+
+    try {
+       const response = await api.get("/users/login", {
+
+           auth: {
+                username: user.username ? user.username : "",
+                password: user.password ? user.password : "",
+            },
+
+        });
+
+       return response.data;
+    }
+
+    catch (error) {
+        return null;
+    }
+
+}

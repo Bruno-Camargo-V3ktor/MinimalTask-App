@@ -1,5 +1,6 @@
 import {createContext} from "react";
 import {SecurityContext, SecurityProviderProps, User} from "../@types/security";
+import { userLogin } from "../http/userAPI.ts";
 
 export const securityContext = createContext<SecurityContext>( {} as SecurityContext );
 export function SecurityProvider( props: SecurityProviderProps ) {
@@ -10,12 +11,20 @@ export function SecurityProvider( props: SecurityProviderProps ) {
     let token: string | null = sessionStorage.getItem( "token" );
 
     // Methods
-    function login( user: User ) : boolean {
+    async function login( input: User ) : Promise<boolean> {
 
+        const response = await userLogin( input );
+        if ( response == null )  {
+            return false;
+        }
+
+        user = { id: response.id, tasks: response.tasks };
+        setToken( btoa( `${user.username}:${user.password}` ) );
         return true;
+
     }
 
-    function register( user: User ): boolean {
+    async function register( input: User ): Promise<boolean> {
 
         return true;
     }
@@ -25,7 +34,7 @@ export function SecurityProvider( props: SecurityProviderProps ) {
     }
 
     function getToken(): string | null {
-        if( token == "" || !isAuthenticated() ) { return null; }
+        if( token == "" ) { return null; }
         return token;
     }
 
@@ -34,12 +43,7 @@ export function SecurityProvider( props: SecurityProviderProps ) {
         token = t;
     }
 
-    function isAuthenticated(): boolean {
-
-        return true;
-    }
-
-    function existedUserWithUsername( usernanme: String ): boolean {
+    async function existedUserWithUsername( usernanme: String ): Promise<boolean> {
 
         return false;
     }

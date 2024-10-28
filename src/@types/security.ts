@@ -1,12 +1,13 @@
 import React from "react";
+import {TaskProps} from "./task.ts";
 
 export interface SecurityContext {
     user: User | null,
-    login: ( user: User ) => boolean;
-    register: ( user: User ) => boolean;
+    login: ( user: User ) => Promise<boolean>;
+    register: ( user: User ) => Promise<boolean>;
     logout: () => void;
     getToken: () => string | null;
-    existedUserWithUsername: (username: string) => boolean;
+    existedUserWithUsername: (username: string) => Promise<boolean>;
 }
 
 export interface SecurityProviderProps {
@@ -18,4 +19,5 @@ export interface User {
     username?: string;
     password?: string;
     id?: string;
+    tasks?: TaskProps[];
 }
