@@ -1,6 +1,7 @@
 import React from "react";
 
 export interface SecurityContext {
+    user: User | null,
     login: ( user: User ) => boolean;
     register: ( user: User ) => boolean;
     logout: () => void;
@@ -13,7 +14,8 @@ export interface SecurityProviderProps {
 }
 
 export interface User {
-    name?: string;
+    email?: string;
     username?: string;
     password?: string;
+    id?: string;
 }

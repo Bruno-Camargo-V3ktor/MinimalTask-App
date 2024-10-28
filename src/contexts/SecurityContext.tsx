@@ -1,13 +1,13 @@
-import {createContext, useEffect} from "react";
+import {createContext} from "react";
 import {SecurityContext, SecurityProviderProps, User} from "../@types/security";
-
 
 export const securityContext = createContext<SecurityContext>( {} as SecurityContext );
 export function SecurityProvider( props: SecurityProviderProps ) {
 
     // Attributes
     const { children } = props;
-    let token: string | null = localStorage.getItem( "token" );
+    let user: User | null = null;
+    let token: string | null = sessionStorage.getItem( "token" );
 
     // Methods
     function login( user: User ) : boolean {
@@ -30,7 +30,7 @@ export function SecurityProvider( props: SecurityProviderProps ) {
     }
 
     function setToken( t: string | null ) {
-        localStorage.setItem( "token", t ? t : "" );
+        sessionStorage.setItem( "token", t ? t : "" );
         token = t;
     }
 
@@ -46,7 +46,7 @@ export function SecurityProvider( props: SecurityProviderProps ) {
 
     // Render
     return (
-        <securityContext.Provider value={ {login, register, logout, getToken, existedUserWithUsername} }>
+        <securityContext.Provider value={ {user, login, register, logout, getToken, existedUserWithUsername} }>
             { children }
         </securityContext.Provider>
     )
