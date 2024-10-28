@@ -1,13 +1,14 @@
 import {createContext} from "react";
 import {SecurityContext, SecurityProviderProps, User} from "../@types/security";
-import { userLogin } from "../http/userAPI.ts";
+import {userLogin, userRegister} from "../http/userAPI.ts";
 
 export const securityContext = createContext<SecurityContext>( {} as SecurityContext );
 export function SecurityProvider( props: SecurityProviderProps ) {
 
     // Attributes
     const { children } = props;
-    let user: User | null = null;
+    // @ts-ignore
+    let user: User | null  = JSON.parse(sessionStorage.getItem( "user" )) ;
     let token: string | null = sessionStorage.getItem( "token" );
 
     // Methods
@@ -18,19 +19,28 @@ export function SecurityProvider( props: SecurityProviderProps ) {
             return false;
         }
 
-        user = { id: response.id, tasks: response.tasks };
-        setToken( btoa( `${user.username}:${user.password}` ) );
+        setUser( { id: response.id, tasks: response.tasks } )
+        setToken( btoa( `${input.username}:${input.password}` ) );
         return true;
 
     }
 
     async function register( input: User ): Promise<boolean> {
 
+        const response = await userRegister( input );
+        if ( response == null )  {
+            return false;
+        }
+
+        setUser( { id: response.id, tasks: response.tasks } )
+        setToken( btoa( `${input.username}:${input.password}` ) );
         return true;
     }
 
     function logout() {
-        setToken( null )
+        setUser( null );
+        setToken( null );
+        sessionStorage.clear();
     }
 
     function getToken(): string | null {
@@ -43,10 +53,17 @@ export function SecurityProvider( props: SecurityProviderProps ) {
         token = t;
     }
 
+    function setUser( u: User | null ) {
+        sessionStorage.setItem( "user", JSON.stringify(u) );
+        user = u;
+    }
+
     async function existedUserWithUsername( usernanme: String ): Promise<boolean> {
 
         return false;
     }
+
+    console.log( user )
 
     // Render
     return (

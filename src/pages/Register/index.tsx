@@ -6,6 +6,7 @@ import {Input} from "../../components/Input";
 import {LogoutButton} from "../../components/LogoutButton";
 import {useNavigate} from "react-router-dom";
 import {securityContext} from "../../contexts/SecurityContext.tsx";
+import {User} from "../../@types/security.ts";
 
 
 export function RegisterPage() {
@@ -18,13 +19,18 @@ export function RegisterPage() {
 
     // Attributes
     const navigate = useNavigate();
-    const {  } = useContext( securityContext );
+    const { register } = useContext( securityContext );
 
     // Methods
     function onRegister( event: any ) {
         event.preventDefault();
 
-        navigate('/tasks');
+        register( { email, username, password } as User )
+            .then( (res) => {
+            if( res ) navigate('/tasks');
+            else console.log( "Recusado" );
+        } )
+
     }
 
     // Render

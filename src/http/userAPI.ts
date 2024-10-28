@@ -21,3 +21,16 @@ export async function userLogin( user: User ): Promise<User | null> {
     }
 
 }
+
+export async function userRegister( user: User ): Promise<User | null> {
+
+    try {
+        const response = await api.post("/users", user);
+        return response.data;
+    }
+
+    catch (error) {
+        return null;
+    }
+
+}
