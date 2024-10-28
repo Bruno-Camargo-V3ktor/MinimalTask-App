@@ -1,7 +1,7 @@
 import {ButtonContainer, RegisterContainer, RegisterForm, OptionsContainer} from "./styles";
 import {ThemeButton} from "../../components/ThemeButton";
 import {Door, DoorOpen} from "@phosphor-icons/react";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import {Input} from "../../components/Input";
 import {LogoutButton} from "../../components/LogoutButton";
 import {useNavigate} from "react-router-dom";
@@ -18,7 +18,7 @@ export function RegisterPage() {
 
     // Attributes
     const navigate = useNavigate();
-    const { getToken } = useContext( securityContext );
+    const {  } = useContext( securityContext );
 
     // Methods
     function onRegister( event: any ) {
@@ -26,11 +26,6 @@ export function RegisterPage() {
 
         navigate('/tasks');
     }
-
-    // Effects
-    useEffect(() => {
-        if( getToken() ) navigate('/tasks');
-    }, []);
 
     // Render
     return (
@@ -44,7 +39,7 @@ export function RegisterPage() {
                         type='email'
                         placeholder='Email'
                         value={ email }
-                        onChange={ ( e ) => { setName( e.target.value ) }}
+                        onChange={ ( e ) => { setEmail( e.target.value ) }}
                         errors={ [] }
                     />
 

@@ -1,7 +1,7 @@
 import {ButtonContainer, LoginContainer, LoginForm, OptionsContainer} from "./styles";
 import {ThemeButton} from "../../components/ThemeButton";
 import {Door, DoorOpen, UserCirclePlus} from "@phosphor-icons/react";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import {Input} from "../../components/Input";
 import {useNavigate} from "react-router-dom";
 import {securityContext} from "../../contexts/SecurityContext.tsx";
@@ -18,7 +18,7 @@ export function LoginPage() {
 
     // Attributes
     const navigate = useNavigate();
-    const { getToken, login } = useContext( securityContext );
+    const { login } = useContext( securityContext );
 
     // Methods
     function onClickRegisterUser() {
@@ -35,10 +35,6 @@ export function LoginPage() {
         } )
     }
 
-    // Effects
-    useEffect(() => {
-        if( getToken() ) navigate('/tasks');
-    }, []);
 
     // Render
     return (
