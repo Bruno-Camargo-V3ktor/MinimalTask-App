@@ -6,12 +6,15 @@ import {Input} from "../../components/Input";
 import {useNavigate} from "react-router-dom";
 import {securityContext} from "../../contexts/SecurityContext.tsx";
 import {User} from "../../@types/security.ts";
-
+import UseAnimations from "react-useanimations";
+import loading from "react-useanimations/lib/loading";
+import {themeContext} from "../../contexts/ThemeContext.tsx";
 
 export function LoginPage() {
 
 
     // State
+    const [signing, setSigning] = useState( false )
     const [btnHover, setBtnHover] = useState( false )
     const [username, setUsername] = useState( "" )
     const [password, setPassword] = useState( "" )
@@ -19,6 +22,9 @@ export function LoginPage() {
     // Attributes
     const navigate = useNavigate();
     const { login } = useContext( securityContext );
+    const { theme } = useContext( themeContext );
+
+    const loadingAnimation = ( <UseAnimations animation={ loading } size={56} strokeColor={ theme.secondary } /> )
 
     // Methods
     function onClickRegisterUser() {
@@ -28,13 +34,15 @@ export function LoginPage() {
     function onLogin( event: any ) {
         event.preventDefault();
 
+        setSigning( true )
         login( { username, password } as User )
             .then( (res) => {
                 if( res ) navigate('/tasks');
-                else console.log( "Recusado" );
+                else {
+                    setTimeout( () => setSigning( false ), 1500 );
+                }
         } )
     }
-
 
     // Render
     return (
@@ -42,34 +50,40 @@ export function LoginPage() {
 
             <LoginForm>
 
-                <form method="post" onSubmit={ onLogin } >
+                <form method="post" onSubmit={onLogin}>
 
                     <Input
                         type='text'
                         placeholder='Username'
-                        value={ username }
-                        onChange={ ( e ) => { setUsername( e.target.value ) }}
-                        errors={ [] }
+                        value={username}
+                        onChange={(e) => {
+                            setUsername(e.target.value)
+                        }}
+                        errors={[]}
                     />
 
                     <Input
                         type='password'
                         placeholder='Password'
-                        value={ password }
-                        onChange={ ( e ) => { setPassword( e.target.value ) }}
-                        errors={ [] }
+                        value={password}
+                        onChange={(e) => {
+                            setPassword(e.target.value)
+                        }}
+                        errors={[]}
                     />
 
-                    <button className={ 'btnIcon' } >
-                        <ButtonContainer onMouseEnter={ () => setBtnHover( true ) }  onMouseLeave={ () => setBtnHover( false ) } >
+
+                    <button className={'btnIcon'}>
+                        <ButtonContainer onMouseEnter={() => setBtnHover(true)} onMouseLeave={() => setBtnHover(false)}>
 
                             {
                                 btnHover
-                                ? <DoorOpen size={60} weight="fill" />
-                                : <Door size={60} />
+                                    ?  !signing ? <DoorOpen size={60} weight="fill"/> : loadingAnimation
+                                    :  !signing ? <Door size={60}/> : loadingAnimation
                             }
 
                             <p>Fazer Login</p>
+
                         </ButtonContainer>
                     </button>
 
@@ -78,10 +92,10 @@ export function LoginPage() {
             </LoginForm>
 
             <OptionsContainer>
-                <ThemeButton size={ 70 } />
-                
-                <div className={ 'btnIcon' } onClick={ onClickRegisterUser }>
-                    <UserCirclePlus size={ 70 } className={ 'btnIcon' } />
+                <ThemeButton size={70}/>
+
+                <div className={'btnIcon'} onClick={onClickRegisterUser}>
+                    <UserCirclePlus size={70} className={'btnIcon'}/>
                 </div>
             </OptionsContainer>
 

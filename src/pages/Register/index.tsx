@@ -7,11 +7,15 @@ import {LogoutButton} from "../../components/LogoutButton";
 import {useNavigate} from "react-router-dom";
 import {securityContext} from "../../contexts/SecurityContext.tsx";
 import {User} from "../../@types/security.ts";
+import {themeContext} from "../../contexts/ThemeContext.tsx";
+import UseAnimations from "react-useanimations";
+import loading from "react-useanimations/lib/loading";
 
 
 export function RegisterPage() {
 
     // State
+    const [signing, setSigning] = useState( false )
     const [btnHover, setBtnHover] = useState( false )
     const [email, setEmail] = useState( "" )
     const [username, setUsername] = useState( "" )
@@ -21,14 +25,21 @@ export function RegisterPage() {
     const navigate = useNavigate();
     const { register } = useContext( securityContext );
 
+    const { theme } = useContext( themeContext );
+
+    const loadingAnimation = ( <UseAnimations animation={ loading } size={56} strokeColor={ theme.secondary } /> )
+
     // Methods
     function onRegister( event: any ) {
         event.preventDefault();
 
+        setSigning( true )
         register( { email, username, password } as User )
             .then( (res) => {
-            if( res ) navigate('/tasks');
-            else console.log( "Recusado" );
+                if( res ) navigate('/tasks');
+                else {
+                    setTimeout( () => setSigning( false ), 1500 );
+                }
         } )
 
     }
@@ -70,8 +81,8 @@ export function RegisterPage() {
 
                             {
                                 btnHover
-                                    ? <DoorOpen size={60} weight="fill" />
-                                    : <Door size={60} />
+                                    ?  !signing ? <DoorOpen size={60} weight="fill"/> : loadingAnimation
+                                    :  !signing ? <Door size={60}/> : loadingAnimation
                             }
 
                             <p>CADASTRAR</p>

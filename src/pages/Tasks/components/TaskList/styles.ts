@@ -94,7 +94,6 @@ export const ListContainer = styled.div`
 
     margin-top: 4rem;
     
-    
     overflow-y: auto;
     scrollbar-width: none;
     
@@ -113,6 +112,8 @@ export const ListContainer = styled.div`
 
     .finished-list {
         margin-top: 4rem;
+        margin-bottom: 1.5rem;
     }
+    
     
 `;

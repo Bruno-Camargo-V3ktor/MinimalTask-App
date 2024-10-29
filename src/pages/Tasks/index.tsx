@@ -1,4 +1,4 @@
-import { PageMain, OptionsMenu, MusicMenu, TasksContainer } from "./styles";
+    import { PageMain, OptionsMenu, MusicMenu, TasksContainer } from "./styles";
 import { MusicPlay } from "./components/MusicPlay";
 import {ThemeButton} from "../../components/ThemeButton";
 import {LogoutButton} from "../../components/LogoutButton";
