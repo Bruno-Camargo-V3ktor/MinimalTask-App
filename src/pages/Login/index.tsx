@@ -15,6 +15,8 @@ export function LoginPage() {
 
     // State
     const [signing, setSigning] = useState( false )
+    const [errorsUsername, setErrorsUsername] = useState<string[]>( [] )
+    const [errorsPassword, setErrorsPassword] = useState<string[]>( [] )
     const [btnHover, setBtnHover] = useState( false )
     const [username, setUsername] = useState( "" )
     const [password, setPassword] = useState( "" )
@@ -34,14 +36,30 @@ export function LoginPage() {
     function onLogin( event: any ) {
         event.preventDefault();
 
+        if ( !username || !password ) {
+            if( !username ) setErrorsUsername( ["Campo Obrigatorio"] )
+            if ( !password ) { setErrorsPassword( ["Campo Obrigatorio"] ) }
+            return;
+        }
+
+        clearErrors();
+
         setSigning( true )
         login( { username, password } as User )
             .then( (res) => {
-                if( res ) navigate('/tasks');
+                if( res ) {
+                    setTimeout( () => { navigate('/tasks') } , 1500 )
+                }
+
                 else {
-                    setTimeout( () => setSigning( false ), 1500 );
+                    setTimeout( () => { setSigning( false ); setErrorsPassword( ["Usuario ou Senha invalidos"] ) }, 1500 );
                 }
         } )
+    }
+
+    function clearErrors() {
+        setErrorsUsername( [] )
+        setErrorsPassword( [] )
     }
 
     // Render
@@ -56,20 +74,16 @@ export function LoginPage() {
                         type='text'
                         placeholder='Username'
                         value={username}
-                        onChange={(e) => {
-                            setUsername(e.target.value)
-                        }}
-                        errors={[]}
+                        onChange={ (e) => { setUsername(e.target.value); clearErrors() } }
+                        errors={ errorsUsername }
                     />
 
                     <Input
                         type='password'
                         placeholder='Password'
                         value={password}
-                        onChange={(e) => {
-                            setPassword(e.target.value)
-                        }}
-                        errors={[]}
+                        onChange={ (e) => { setPassword(e.target.value); clearErrors()} }
+                        errors={ errorsPassword }
                     />
 
 

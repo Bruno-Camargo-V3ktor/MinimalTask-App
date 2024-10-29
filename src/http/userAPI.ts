@@ -34,3 +34,16 @@ export async function userRegister( user: User ): Promise<User | null> {
     }
 
 }
+
+export async function userExistedWithUsername( username: string ): Promise<boolean> {
+
+    try {
+        const response = await api.get(`/users/exist/${username}`);
+        return response.data;
+    }
+
+    catch (error) {
+        return false;
+    }
+
+}

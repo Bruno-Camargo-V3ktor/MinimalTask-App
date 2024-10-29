@@ -1,6 +1,6 @@
 import {createContext} from "react";
 import {SecurityContext, SecurityProviderProps, User} from "../@types/security";
-import {userLogin, userRegister} from "../http/userAPI.ts";
+import {userExistedWithUsername, userLogin, userRegister} from "../http/userAPI.ts";
 
 export const securityContext = createContext<SecurityContext>( {} as SecurityContext );
 export function SecurityProvider( props: SecurityProviderProps ) {
@@ -58,12 +58,9 @@ export function SecurityProvider( props: SecurityProviderProps ) {
         user = u;
     }
 
-    async function existedUserWithUsername( usernanme: String ): Promise<boolean> {
-
-        return false;
+    async function existedUserWithUsername( usernanme: string ): Promise<boolean> {
+        return await userExistedWithUsername(usernanme);
     }
-
-    console.log( user )
 
     // Render
     return (
