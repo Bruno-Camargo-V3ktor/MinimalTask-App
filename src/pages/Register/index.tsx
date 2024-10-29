@@ -17,31 +17,72 @@ export function RegisterPage() {
     // State
     const [signing, setSigning] = useState( false )
     const [btnHover, setBtnHover] = useState( false )
+    const [errorsEmail, setErrorsEmail] = useState<string[]>( [] )
+    const [errorsUsername, setErrorsUsername] = useState<string[]>( [] )
+    const [errorsPassword, setErrorsPassword] = useState<string[]>( [] )
     const [email, setEmail] = useState( "" )
     const [username, setUsername] = useState( "" )
     const [password, setPassword] = useState( "" )
 
     // Attributes
     const navigate = useNavigate();
-    const { register } = useContext( securityContext );
+    const { register, existedUserWithUsername } = useContext( securityContext );
 
     const { theme } = useContext( themeContext );
 
     const loadingAnimation = ( <UseAnimations animation={ loading } size={56} strokeColor={ theme.secondary } /> )
 
     // Methods
-    function onRegister( event: any ) {
+    async function onRegister( event: any ) {
         event.preventDefault();
 
+
+        if ( !email || !username || !password ) {
+            if ( !email ) setErrorsEmail( ["Cambo Obrigatorio"] )
+            if ( !username ) setErrorsUsername( ["Cambo Obrigatorio"] )
+            if ( !password ) setErrorsPassword( ["Cambo Obrigatorio"] )
+
+            return
+        }
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if ( !emailRegex.test( email ) ) { setErrorsEmail( ["Email Invalido"] ) }
+
+        if ( password.length < 4 ) { setErrorsPassword( ["A senha precisar ter no minimo 4 caracteres"] ) }
+
         setSigning( true )
+
+        const userExisted = await existedUserWithUsername( username )
+        if ( userExisted ) {
+            setTimeout( () => {
+                setSigning( false );
+                setErrorsUsername( ["Username ja existe"] )
+            }, 1000 );
+            return
+        }
+
+
+
+
+        clearErrors()
+
+
         register( { email, username, password } as User )
             .then( (res) => {
-                if( res ) navigate('/tasks');
-                else {
-                    setTimeout( () => setSigning( false ), 1500 );
+                if( res ) {
+                    setTimeout( () => navigate('/tasks'), 1500 )
                 }
-        } )
 
+                else {
+                    setTimeout( () => { setSigning( false ); setErrorsPassword( ["Algo deu errado :/"] ) }, 1500 );
+                }
+            } )
+    }
+
+    function clearErrors() {
+        setErrorsEmail( [] )
+        setErrorsUsername( [] )
+        setErrorsPassword( [] )
     }
 
     // Render
@@ -56,24 +97,24 @@ export function RegisterPage() {
                         type='email'
                         placeholder='Email'
                         value={ email }
-                        onChange={ ( e ) => { setEmail( e.target.value ) }}
-                        errors={ [] }
+                        onChange={ ( e ) => { setEmail( e.target.value ); clearErrors() } }
+                        errors={ errorsEmail }
                     />
 
                     <Input
                         type='text'
                         placeholder='Username'
                         value={ username }
-                        onChange={ ( e ) => { setUsername( e.target.value ) }}
-                        errors={ [] }
+                        onChange={ ( e ) => { setUsername( e.target.value ); clearErrors() } }
+                        errors={ errorsUsername }
                     />
 
                     <Input
                         type='password'
                         placeholder='Password'
                         value={ password }
-                        onChange={ ( e ) => { setPassword( e.target.value ) }}
-                        errors={ [] }
+                        onChange={ ( e ) => { setPassword( e.target.value ); clearErrors() } }
+                        errors={ errorsPassword }
                     />
 
                     <button className={ 'btnIcon' } >
