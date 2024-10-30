@@ -22,8 +22,10 @@ export function TaskList() {
         const date = new Date();
         date.setHours(23, 59, 59);
 
+
         createTask( {
-            id: `task${(Math.random() + Math.random())}`,
+            // @ts-ignore
+            id: null,
             title: taskInput,
             done: false,
             targetDate: date,

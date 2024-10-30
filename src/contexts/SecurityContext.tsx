@@ -21,6 +21,8 @@ export function SecurityProvider( props: SecurityProviderProps ) {
 
         setUser( { id: response.id, tasks: response.tasks } )
         setToken( btoa( `${input.username}:${input.password}` ) );
+
+        console.log( user );
         return true;
 
     }
@@ -53,6 +55,10 @@ export function SecurityProvider( props: SecurityProviderProps ) {
         token = t;
     }
 
+    function getUser(): User | null {
+        return user
+    }
+
     function setUser( u: User | null ) {
         sessionStorage.setItem( "user", JSON.stringify(u) );
         user = u;
@@ -64,7 +70,7 @@ export function SecurityProvider( props: SecurityProviderProps ) {
 
     // Render
     return (
-        <securityContext.Provider value={ {user, login, register, logout, getToken, existedUserWithUsername} }>
+        <securityContext.Provider value={ {getUser, setUser, login, register, logout, getToken, existedUserWithUsername} }>
             { children }
         </securityContext.Provider>
     )

@@ -17,6 +17,7 @@ export async function userLogin( user: User ): Promise<User | null> {
     }
 
     catch (error) {
+        console.log( error )
         return null;
     }
 

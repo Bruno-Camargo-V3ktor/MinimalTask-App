@@ -1,6 +1,8 @@
 import {useState, createContext, ReactNode, useEffect, useContext} from "react";
 import {TaskProps, TaskContext, TaskFilter} from "../@types/task.ts";
 import {securityContext} from "./SecurityContext.tsx";
+import {taskCreate, taskDelete, taskUpdate} from "../http/taskAPI.ts";
+import {useNavigate} from "react-router-dom";
 
 
 export const tasksContext = createContext< TaskContext >( {} as TaskContext );
@@ -9,21 +11,98 @@ export function TasksProvider( { children }: { children: ReactNode } )
 
     // States
     const [tasks, setTasks] = useState< TaskProps[] >([]);
-    const { } = useContext( securityContext )
+    const { getUser, setUser, getToken, logout } = useContext( securityContext )
+    const navigate = useNavigate()
 
     // Métodos
     function createTask( task: TaskProps )
     {
-        setTasks( (value) =>  [task, ...value] );
+
+        // @ts-ignore
+        taskCreate( getUser(), task, getToken() ).then(
+            ( response ) => {
+
+                if ( response === null ) {
+                    logout();
+                    navigate( "/login" );
+                    return;
+                }
+
+                else if ( response?.id === "" ) {
+                    window.location.reload()
+                    return;
+                }
+
+                setTasks( (value) => {
+                    const list = [response, ...value]
+
+                    setUser( { ...getUser(), tasks: list } )
+                    return list;
+                } );
+
+            }
+        )
+
+
     }
 
     function updateTask( task: TaskProps )
     {
+
+        // @ts-ignore
+        taskUpdate( getUser(), task, getToken() ).then(
+            ( response ) => {
+
+                if ( response === null ) {
+                    logout();
+                    navigate( "/login" );
+                    return;
+                }
+
+                else if ( !response ) {
+                    window.location.reload()
+                    return;
+                }
+
+
+                setTasks( (value) => {
+                        setUser( { ...getUser(), tasks: value } )
+                        return value
+                    }
+                )
+            }
+        )
+
         setTasks( (value) => value.map( (t) => t.id === task.id ? task : t ) );
     }
 
     function deleteTask( task: TaskProps )
     {
+
+        // @ts-ignore
+        taskDelete( getUser(), task, getToken() ).then(
+            ( response ) => {
+
+                if ( response === null ) {
+                    logout();
+                    navigate( "/login" );
+                    return;
+                }
+
+                else if ( !response ) {
+                    window.location.reload()
+                    return;
+                }
+
+                setTasks( (value) => {
+                        setUser( { ...getUser(), tasks: value } )
+                        return value
+                    }
+                )
+
+            }
+        )
+
         setTasks( (value) =>  value.filter( (t) => t.id !== task.id ) );
     }
 
@@ -36,14 +115,11 @@ export function TasksProvider( { children }: { children: ReactNode } )
 
     // Effects
     useEffect(() => {
-        //Request in API Tasks
-        setTasks( [
-            { id: 'task0', title:'Aprender React', done: false, targetDate: new Date(), finishedDate: new Date( '2024-10-12' ) },
-            { id: 'task1', title:'Aprender AWS', done: false, targetDate: new Date(), finishedDate: new Date( '2024-09-12' ) },
-            { id: 'task2', title:'Aprender Rust', done: true, targetDate: new Date(), finishedDate: new Date( '2024-10-12' ) },
-            { id: 'task3', title:'Aprender Spring Boot', done: true, targetDate: new Date(), finishedDate: new Date( '2024-09-12' ) },
-        ] )
-    }, [])
+
+        // @ts-ignore
+        setTasks( getUser().tasks )
+
+    }, [getUser])
 
     // Render
     return (
