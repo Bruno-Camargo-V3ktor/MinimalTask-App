@@ -1,7 +1,7 @@
 import {useState, createContext, ReactNode, useEffect, useContext} from "react";
 import {TaskProps, TaskContext, TaskFilter} from "../@types/task.ts";
 import {securityContext} from "./SecurityContext.tsx";
-import {taskCreate, taskDelete, taskUpdate} from "../http/taskAPI.ts";
+import {taskCreate, taskDelete, taskGetAll, taskUpdate} from "../http/taskAPI.ts";
 import {useNavigate} from "react-router-dom";
 
 
@@ -117,9 +117,14 @@ export function TasksProvider( { children }: { children: ReactNode } )
     useEffect(() => {
 
         // @ts-ignore
-        setTasks( getUser().tasks )
+        taskGetAll( getUser(), getToken() ).then(
+            (response) => {
+                setTasks( response ? response : [] );
+                setUser( { ...getUser(), tasks: response ? response : [] } );
+            }
+        )
 
-    }, [getUser])
+    }, [getUser, taskGetAll, getToken, setUser, setTasks])
 
     // Render
     return (

@@ -59,3 +59,20 @@ export async function taskDelete( user: User, task: TaskProps, token: string ): 
     }
 
 }
+
+export async function taskGetAll( user: User, token: string  ): Promise<TaskProps[] | null> {
+
+    try {
+        const response = await api.get(`/${user.id}/tasks`, {
+            headers: { "Authorization": `Basic ${token}` },
+        });
+
+        return response.data;
+    }
+
+    catch (error) {
+        return null;
+    }
+
+
+}
