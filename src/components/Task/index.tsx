@@ -3,7 +3,7 @@ import {TaskProps} from "../../@types/task.ts";
 import {CalendarBlank, CalendarCheck, CalendarX, CheckSquare, Square, Trash} from "@phosphor-icons/react";
 import {ChangeEvent, useContext, useEffect, useRef, useState} from "react";
 import {tasksContext} from "../../contexts/TasksContext.tsx";
-import {format, isBefore} from "date-fns";
+import {differenceInDays, format, startOfDay} from "date-fns";
 
 
 export function Task( props: TaskProps ) {
@@ -84,7 +84,11 @@ export function Task( props: TaskProps ) {
 
                     {
                         isFinished && finishedDate !== null
-                        ? ( isBefore( finishedDate!,  targetDate) ? <CalendarCheck weight='fill' className='btnIcon'/> : <CalendarX  weight='fill' className='btnIcon'/>)
+                        ? (
+                              ( differenceInDays( startOfDay( finishedDate ),  startOfDay( targetDate ) ) <= 0 )
+                                ? <CalendarCheck weight='fill' className='btnIcon'/>
+                                : <CalendarX  weight='fill' className='btnIcon'/>
+                          )
                         : <CalendarBlank className='btnIcon'/>
                     }
 
