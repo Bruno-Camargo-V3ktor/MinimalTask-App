@@ -113,6 +113,25 @@ export const TitleContainer = styled.div`
         margin-left: 0.5rem;
     }
     
+    overflow: hidden;
+    white-space: nowrap;
+
+
+    @keyframes loop-title {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-110%);
+        }
+    }
+    
+    & .is_overflow {
+        animation: loop-title 10s linear normal;
+    }
+    
+    
 `
 
 export const DateContainer = styled.div`

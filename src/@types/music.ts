@@ -11,5 +11,4 @@ export const musics: Music[] = [
     { direction: "/music/Purple-Dream.mp3", title: "Purple Dream" },
     { direction: "/music/Silent-Wood.mp3", title: "Silent Wood" },
     { direction: "/music/Way-Home.mp3", title: "Way Home" }
-
 ]

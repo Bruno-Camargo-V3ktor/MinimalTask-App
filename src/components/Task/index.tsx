@@ -12,10 +12,13 @@ export function Task( props: TaskProps ) {
     const { id, title, done, targetDate, finishedDate } = props
     const { updateTask, deleteTask } = useContext( tasksContext )
     const dateRef = useRef<HTMLInputElement>(null);
+    const titleRef = useRef<HTMLHeadingElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
 
     // States
     const [init, setInit] = useState( true )
     const [isFinished, setIsFinished] = useState( done )
+    const [isTitleOverflow, setIsTitleOverflow] = useState( false )
     const [classes, setClasses] = useState<string[]>( [ isFinished ? 'done' : '', 'entered' ] )
     const [_, setDateSelected] = useState<Date | null >( null )
 
@@ -65,11 +68,17 @@ export function Task( props: TaskProps ) {
         }, 500)
     }
 
+    const mouseEnterTitle = () => {
+        // @ts-ignore
+        if (titleRef.current.scrollWidth > containerRef.current.clientWidth) { setIsTitleOverflow( true ) }
+    }
+
     // Effects
      useEffect(() => {
 
          setClasses( [ isFinished ? 'done' : '', init ? 'entered' : '' ] );
          if( init ) setInterval( () => setInit( false ), 1000  )
+
 
      }, [isFinished, init])
 
@@ -77,8 +86,16 @@ export function Task( props: TaskProps ) {
     return (
         <TaskContainer className={ classes.join(' ') }  >
 
-            <TitleContainer>
-                <h2> {title} </h2>
+            <TitleContainer ref={ containerRef }  >
+
+                <h2
+                    className={ `${ isTitleOverflow ? "is_overflow" : "" }` }
+                    ref={ titleRef }
+                    onMouseEnter={ mouseEnterTitle }
+                    onMouseLeave={ () => { if ( isTitleOverflow ) setIsTitleOverflow( false ) } }
+                    >
+                    {title}
+                </h2>
 
                 <DateContainer onClick={ onDateClick }>
 
